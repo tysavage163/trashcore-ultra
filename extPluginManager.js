@@ -149,8 +149,47 @@ async function installPlugin(nameOrId) {
     return { ok: false, msg: `⚠️ Plugin *${plugin.name}* code already present in file (orphaned state). Run *.plug remove ${plugin.id}* first.` };
   }
 
-  // Append the plugin code with markers
-  const injection = MARKER_START(plugin.id) + code.trim() + MARKER_END(plugin.id);
+  // ── Safe injection: strip any module.exports from the downloaded code,
+  //    extract the last exported variable name, then push it into the
+  //    existing array export at the bottom of the category file.
+  //
+  //    This prevents the injected code from overwriting the host file's
+  //    own `module.exports = [...]` array, which would wipe all existing
+  //    commands in that category file.
+  // ────────────────────────────────────────────────────────────────────
+
+  // 1. Strip all module.exports lines from the downloaded plugin code
+  const cleanCode = code
+    .split('\n')
+    .filter(line => !/^\s*module\.exports\s*=/.test(line))
+    .join('\n')
+    .trim();
+
+  // 2. Try to detect the plugin's variable name so we can push it.
+  //    Strategy: look for `const <name> = {` or `const <name>={` where
+  //    the object has a `command` property — that's the plugin object.
+  let varName = null;
+
+  // Pattern A: const pluginName = { ... command: ...
+  const pluginObjMatch = cleanCode.match(/const\s+(\w+)\s*=\s*\{[^{}]*command\s*:/s);
+  if (pluginObjMatch) varName = pluginObjMatch[1];
+
+  // Pattern B: last `const <name> = {` in the file (fallback)
+  if (!varName) {
+    const allConsts = [...cleanCode.matchAll(/^const\s+(\w+)\s*=\s*\{/gm)];
+    if (allConsts.length) varName = allConsts[allConsts.length - 1][1];
+  }
+
+  if (!varName) {
+    return { ok: false, msg: `❌ Could not detect plugin export variable in *${plugin.name}*.\nMake sure the plugin defines a \`const pluginName = { command, run, ... }\` object.` };
+  }
+
+  // 3. Build the injection block:
+  //    - the cleaned plugin code (no module.exports)
+  //    - a safe push into the existing array export
+  const pushLine = `\nif (Array.isArray(module.exports)) { module.exports.push(${varName}); } else { module.exports = [module.exports, ${varName}]; }`;
+  const injection = MARKER_START(plugin.id) + cleanCode + pushLine + MARKER_END(plugin.id);
+
   try {
     fs.appendFileSync(categoryFile, injection, 'utf8');
   } catch (e) {
