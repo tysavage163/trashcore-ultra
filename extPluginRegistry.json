@@ -1,0 +1,57 @@
+[
+  {
+    "id": "lyrics",
+    "name": "Lyrics",
+    "category": "downloads",
+    "description": "Search and fetch song lyrics",
+    "commands": ["lyrics", "lyric"],
+    "aliases": ["lyrics", "lyric"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/downloads/lyrics.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify Downloader",
+    "category": "downloads",
+    "description": "Download Spotify tracks via API",
+    "commands": ["spotify", "spdl"],
+    "aliases": ["spotify", "spdl"],
+    "url": "https://raw.githubusercontent.com/YOUR_USERNAME/trashcore-extplugins/main/downloads/spotify.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+  {
+    "id": "truth-or-dare",
+    "name": "Truth or Dare",
+    "category": "fun",
+    "description": "Truth or dare game commands",
+    "commands": ["truth", "dare", "tod"],
+    "aliases": ["tod", "truthordare"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/fun/truthordare.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+  {
+    "id": "calculator",
+    "name": "Calculator",
+    "category": "tools",
+    "description": "Advanced math calculator",
+    "commands": ["calc", "math"],
+    "aliases": ["calculator", "calc"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/tools/calculator.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+  {
+    "id": "bible",
+    "name": "Bible Verse",
+    "category": "search",
+    "description": "Get Bible verses by reference",
+    "commands": ["bible", "verse"],
+    "aliases": ["bible", "bibleverse"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/search/bible.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  }
+]
