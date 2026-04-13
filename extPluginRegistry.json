@@ -33,13 +33,13 @@
     "version": "1.0.0"
   },
   {
-    "id": "calculator",
-    "name": "Calculator",
+    "id": "telestick",
+    "name": "Telestick",
     "category": "tools",
-    "description": "Advanced math calculator",
-    "commands": ["calc", "math"],
-    "aliases": ["calculator", "calc"],
-    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/tools/calculator.js",
+    "description": "Download & send all stickers from a Telegram sticker pack",
+    "commands": ["telestick", "tgsticker"],
+    "aliases": ["telestick", "tgsticker"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/tools/telestick.js",
     "author": "TrashX",
     "version": "1.0.0"
   },
