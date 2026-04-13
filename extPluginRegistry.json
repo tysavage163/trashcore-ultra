@@ -24,7 +24,7 @@
   {
     "id": "chemistryai",
     "name": "Chemistryai",
-    "category": "Education",
+    "category": "education",
     "description": "Ask chemistry or physics questions",
     "commands": ["chemistryai", "scienceai", "chemai"],
     "aliases": ["chemistryai", "chemai"],
@@ -46,7 +46,7 @@
   {
     "id": "fruit",
     "name": "Fruit",
-    "category": "Education",
+    "category": "education",
     "description": "Get fruit info",
     "commands": ["fruit", "fruitinfo"],
     "aliases": ["fruit", "fruitinfo"],
