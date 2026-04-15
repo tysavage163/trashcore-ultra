@@ -1,4 +1,48 @@
 [
+{
+    "id": "listblock",
+    "name": "listblock",
+    "category": "tools",
+    "description": "List blocked users",
+    "commands": ["listblock", "listban"],
+    "aliases": ["listblock", "listban"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/admin/listblock.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+{
+    "id": "unblock",
+    "name": "unblock",
+    "category": "admin",
+    "description": "Unblock or unban a user",
+    "commands": ["unblock", "unban"],
+    "aliases": ["unblock", "unban"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/unblock.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+{
+    "id": "block",
+    "name": "block",
+    "category": "admin",
+    "description": "Block or ban a user",
+    "commands": ["block", "ban"],
+    "aliases": ["block", "ban"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/admin/block.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
+{
+    "id": "getpp",
+    "name": "Getpp",
+    "category": "utility",
+    "description": "get profile picture of a user",
+    "commands": ["getpp"],
+    "aliases": ["getpp"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/utility/getpp.js",
+    "author": "TrashX",
+    "version": "1.0.0"
+  },
   {
     "id": "mathgpt",
     "name": "mathgpt",
