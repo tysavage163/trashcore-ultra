@@ -88,13 +88,13 @@
     "version": "1.0.0"
   },
 {
-    "id": "swgc",
-    "name": "swgc",
+    "id": "swgc2",
+    "name": "swgc2",
     "category": "group",
     "description": "Send status updates to group",
-    "commands": ["swgc"],
-    "aliases": ["swgc"],
-    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/group/swgc.js",
+    "commands": ["swgc2"],
+    "aliases": ["swgc2"],
+    "url": "https://raw.githubusercontent.com/Tennor-modz/trashcore-extplugins/main/group/swgc2.js",
     "author": "TrashX",
     "version": "1.0.0"
   },
