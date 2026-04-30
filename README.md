@@ -37,7 +37,7 @@
 
 ### 📦 About Trashcore
 
-**Trashcore** is a feature-rich **WhatsApp bot** powered by [Baileys](https://github.com/WhiskeySockets/Baileys).  
+**Trashcore** is a feature-rich **WhatsApp bot** powered by [@trashcore/Baileys](https://github.com/Tennor-modz/MD-Baileys/tree/main).  
 It includes **anti-features**, **auto responses**, **session or pairing-based login**, and easy redeployment support.  
 Perfect for developers and enthusiasts who want a **stable, powerful, and customizable bot**.
 
