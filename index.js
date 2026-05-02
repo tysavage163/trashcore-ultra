@@ -545,7 +545,21 @@ global.restartBot = async function() {
       await trashcoreRef.ws.close();
     }
   } catch {}
-  setTimeout(() => starttrashcore(), 2000);
+
+  // Spawn a fresh detached process so new files are loaded from disk
+  try {
+    const { spawn } = require('child_process');
+    const child = spawn(process.execPath, process.argv.slice(1), {
+      cwd:      process.cwd(),
+      env:      process.env,
+      detached: true,
+      stdio:    'ignore'
+    });
+    child.unref();
+  } catch {}
+
+  // Exit current process — new child already running
+  setTimeout(() => process.exit(0), 1500);
 };
 
 async function starttrashcore() {
