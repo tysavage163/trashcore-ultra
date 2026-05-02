@@ -537,31 +537,6 @@ async function saveSessionFromConfig() {
 
 let _coreLoaded = false;
 
-// ─── global restart helper ───────────────────────────────────
-global.restartBot = async function() {
-  try {
-    if (trashcoreRef) {
-      trashcoreRef.ev.removeAllListeners();
-      await trashcoreRef.ws.close();
-    }
-  } catch {}
-
-  // Spawn a fresh detached process so new files are loaded from disk
-  try {
-    const { spawn } = require('child_process');
-    const child = spawn(process.execPath, process.argv.slice(1), {
-      cwd:      process.cwd(),
-      env:      process.env,
-      detached: true,
-      stdio:    'ignore'
-    });
-    child.unref();
-  } catch {}
-
-  // Exit current process — new child already running
-  setTimeout(() => process.exit(0), 1500);
-};
-
 async function starttrashcore() {
   if (!_coreLoaded) {
     await fetchCore();
@@ -699,13 +674,15 @@ async function starttrashcore() {
       });
       logOk('AntiDelete active');
 
-      // AntiViewOnce
-      const initAntiViewOnce = require(require('path').join(global.__CORE__, 'database', 'antiViewOnce'));
-      global._antiViewOnce = initAntiViewOnce(trashcore, {
-        botNumber: `${botNumber}@s.whatsapp.net`,
-        enabled:   true
-      });
-      logOk('AntiViewOnce active');
+      // AntiViewOnce — only init once to prevent duplicate listeners on reconnect
+      if (!global._antiViewOnce) {
+        const initAntiViewOnce = require(require('path').join(global.__CORE__, 'database', 'antiViewOnce'));
+        global._antiViewOnce = initAntiViewOnce(trashcore, {
+          botNumber: `${botNumber}@s.whatsapp.net`,
+          enabled:   true
+        });
+        logOk('AntiViewOnce active');
+      }
     }
   });
 
