@@ -537,6 +537,17 @@ async function saveSessionFromConfig() {
 
 let _coreLoaded = false;
 
+// ─── global restart helper ───────────────────────────────────
+global.restartBot = async function() {
+  try {
+    if (trashcoreRef) {
+      trashcoreRef.ev.removeAllListeners();
+      await trashcoreRef.ws.close();
+    }
+  } catch {}
+  setTimeout(() => starttrashcore(), 2000);
+};
+
 async function starttrashcore() {
   if (!_coreLoaded) {
     await fetchCore();
