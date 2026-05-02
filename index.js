@@ -713,6 +713,14 @@ async function starttrashcore() {
           const deleted = await runAntilink(trashcore, m);
           if (deleted) return;
 
+          // Warn message counter — kick warned users after 3 messages
+          try {
+            const { checkWarnedUser } = require(require('path').join(global.__CORE__, 'plugins', 'group', 'group2'));
+            await checkWarnedUser(trashcore, m);
+          } catch (e) {
+            // warn check failed silently
+          }
+
           // Auto-read
           const autoReadMode = getCachedSetting('autoRead', false);
           if (autoReadMode) {
