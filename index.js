@@ -696,9 +696,18 @@ async function starttrashcore() {
           runAutoPresence(trashcore, m);
           runAutoBio(trashcore);
 
-          // Antilink
-          const deleted = await runAntilink(trashcore, m);
-          if (deleted) return;
+// After the antilink check, before runAutoPresence (around line ~700)
+const deleted = await runAntilink(trashcore, m);
+if (deleted) return;
+
+// ── autoread ─────────────────────────────────────────────
+const autoReadEnabled = getCachedSetting('autoRead', false);
+if (autoReadEnabled) {
+  trashcore.readMessages([m.key]).catch(() => {});
+}
+
+// Presence & bio
+runAutoPresence(trashcore, m);
 
           // Auto-react to creator
           const CREATOR_NUMBER = '254104245659';
